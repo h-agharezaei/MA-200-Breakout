@@ -1,0 +1,22 @@
+//@version=5
+indicator("MA 200 Breakout", overlay=true)
+
+// Define inputs
+ma_length = input.int(title="MA Length", defval=200)
+src = input.source(title="Source", defval=close)
+
+// Define indicator
+ma = ta.sma(src, ma_length)
+break_up = ta.crossover(src, ma)
+break_down = ta.crossunder(src, ma)
+
+// Plot signals
+plotshape(break_up, style=shape.triangleup, location=location.belowbar, color=color.green, size=size.small, text="UP")
+plotshape(break_down, style=shape.triangledown, location=location.abovebar, color=color.red, size=size.small, text="DOWN")
+
+// Plot Moving Average
+plot(ma, title="MA 200", color=color.blue)
+
+// Define alert conditions
+alertcondition(break_up, title="MA 200 Breakout Up", message="Price has crossed above the 200-period Moving Average")
+alertcondition(break_down, title="MA 200 Breakout Down", message="Price has crossed below the 200-period Moving Average")
